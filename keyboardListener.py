@@ -16,6 +16,10 @@ class MyKeyListener:
         return str(key) in self.keys_pressed
 
     #define what keys can be pressed
+    def is_a_pressed(self):
+        return "'a'" in self.keys_pressed
+    def is_d_pressed(self):
+        return "'d'" in self.keys_pressed
     def is_s_pressed(self):
         return "'s'" in self.keys_pressed
     def is_x_pressed(self):

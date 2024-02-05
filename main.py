@@ -24,7 +24,7 @@ class Board:
         for i in range(0, len(self.board)):
             if isinstance(self.board[0][x], Piece):
                 return False
-            elif isinstance(self.board[i][x], Piece) and i != 0:
+            if isinstance(self.board[i][x], Piece) and i != 0:
                 self.board[i-1][x] = piece
                 addLinesToSreen(BoardPieceColor, BoardConnect, 6*(len(self.board) - (i-1)-1)+1, x*12 + 2, '\033[m', False)
                 addLinesToSreen(BoardConnect, EmptyScreen, 6, 10, '\033[m', False)
@@ -34,54 +34,102 @@ class Board:
                 addLinesToSreen(BoardPieceColor, BoardConnect, 12*(len(self.board) - (i)-1)+1, x*12 + 2, '\033[m', False)
                 addLinesToSreen(BoardConnect, EmptyScreen, 6, 10, '\033[m', False)
                 return True
-    def checkWin(self):
+            addLinesToSreen(BoardPieceColor, BoardConnect, 6*(len(self.board) - (i)-1)+1, x*12 + 2, '\033[m', False)
+            addLinesToSreen(BoardConnect, EmptyScreen, 6, 10, '\033[m', False)
+            printScreen(EmptyScreen)
+            time.sleep(0.1)
+            addLinesToSreen(convert_2d_array_to_empty_strings(BoardPieceColor), BoardConnect, 6*(len(self.board) - (i)-1)+1, x*12 + 2, '\033[m', False)
+            addLinesToSreen(BoardConnect, EmptyScreen, 6, 10, '\033[m', False)
+            printScreen(EmptyScreen)
+            
+            
+
+    def placeWinPiece(self, piece, x, y):   
+        addLinesToSreen(piece, BoardConnect, 6*(len(self.board) - (y)-1)+1, x*12 + 2, '\033[m', False)
+    def checkWin(self, pieceColor):
         for i in range(0, len(self.board)):
             for j in range(0, len(self.board[i])):
                 if isinstance(self.board[i][j], Piece):
-                    if self.checkWinPiece(i, j):
+                    if self.checkWinPiece(i, j, pieceColor):
                         return True
         return False
-    def checkWinPiece(self, x, y):
+    
+    def blinkPieces(self, winPieceList, pieceColor):
+        turns = 0
+        if pieceColor == PIECERED:
+            piece = WINPIECERED
+        else:
+            piece = WINPIECEYELLOW
+        while turns < 10:
+            if turns % 2 == 0:
+                blinkingPiece = piece
+            else:
+                blinkingPiece = pieceColor
+            for i in winPieceList[1]:
+                self.placeWinPiece(blinkingPiece, i[1], i[0])
+            addLinesToSreen(BoardConnect, EmptyScreen, 6, 10, '\033[m', False)
+            printScreen(EmptyScreen)
+            time.sleep(0.5)
+            turns += 1
+        return True
+        
+    def checkWinPiece(self, x, y, pieceColor):
         piece = self.board[x][y]
-        if self.checkWinVertical(x, piece):
+        verticals = self.checkWinVertical(x, piece)
+        horizontals = self.checkWinHorizontal(x, y, piece)
+        diagonals = self.checkWinDiagonal(x, y, piece)
+        if verticals[0]:
+            self.blinkPieces(verticals, pieceColor)
             return True
-        if self.checkWinHorizontal(x, y, piece):
+        if horizontals[0]:
+            self.blinkPieces(horizontals, pieceColor)
             return True
-        if self.checkWinDiagonal(x, y, piece):
+        if diagonals[0]:
+            self.blinkPieces(diagonals, pieceColor)
             return True
         return False
     def checkWinVertical(self, x, piece):
         count = 0
+        positions = []
         for i in range(0, len(self.board)):
             if isinstance(self.board[i][x], Piece) and self.board[i][x].color == piece.color:
                 count += 1
+                positions.append((i, x))
                 if count == 4:
-                    return True
+                    return [True, positions]
             else:
+                positions = []
                 count = 0
-        return False
+        return [False]
     def checkWinHorizontal(self, x, y, piece):
         count = 0
+        positions = []
         for j in range(0, len(self.board[y-1])):
             if isinstance(self.board[x][j], Piece) and self.board[x][j].color == piece.color:
                 count += 1
+                positions.append((x, j))
                 if count == 4:
-                    return True
+                    return [True, positions]
             else:
+                positions = []
                 count = 0
-        return False
+        return [False]
     def checkWinDiagonal(self, x, y, piece):
         for i in range(0, len(CHECKDIAGONALS)):
             count = 0
+            positions = []
             for j in range(0, len(self.board)):
                 if x+CHECKDIAGONALS[i][0]*j < 0 or x+CHECKDIAGONALS[i][0]*j >= len(self.board) or y+CHECKDIAGONALS[i][1]*j < 0 or y+CHECKDIAGONALS[i][1]*j >= len(self.board[0]):
                     break
                 if isinstance(self.board[x+CHECKDIAGONALS[i][0]*j][y+CHECKDIAGONALS[i][1]*j], Piece) and self.board[x+CHECKDIAGONALS[i][0]*j][y+CHECKDIAGONALS[i][1]*j].color == piece.color:
                     count += 1
+                    positions.append((x+CHECKDIAGONALS[i][0]*j, y+CHECKDIAGONALS[i][1]*j))
                     if count == 4:
-                        return True
+                        return [True, positions]
                 else:
+                    positions = []
                     count = 0
+        return [False]
     def __str__(self):
         result = ""
         for row in self.board:
@@ -104,7 +152,7 @@ def MovePiece(col, type):
         BoardPieceColor = PIECEYELLOW
     if not b.placePiece(Piece(f'{type[1]} \033[0m'), BoardPieceColor ,col):
         return False
-    elif b.checkWin():
+    elif b.checkWin(BoardPieceColor):
         clear()
         printScreen(EmptyScreen)
         print(reset)
@@ -123,9 +171,9 @@ def selectingCol(piece):
     emptyString = convert_2d_array_to_empty_strings(piece)
     addLinesToSreen(piece, EmptyScreen, ROWOFDISPLAY, currentCol, '\033[m', False)
     printScreen(EmptyScreen)
-    while not key_listener.is_enter_pressed() and not key_listener.is_down_arrow_pressed():
-        if (key_listener.is_left_arrow_pressed() and col > 0) or (key_listener.is_right_arrow_pressed() and col < 6):
-            if key_listener.is_right_arrow_pressed():
+    while not key_listener.is_enter_pressed() and not key_listener.is_down_arrow_pressed() and not key_listener.is_s_pressed():
+        if ((key_listener.is_left_arrow_pressed() or key_listener.is_a_pressed()) and col > 0) or ((key_listener.is_right_arrow_pressed() or key_listener.is_d_pressed()) and col < 6):
+            if key_listener.is_right_arrow_pressed() or key_listener.is_d_pressed():
                 num = [12,1]
             else:
                 num = [-12,-1]
@@ -151,6 +199,8 @@ def selectingCol(piece):
 CHECKDIAGONALS = [(1, 1), (-1,1), (1, -1), (-1, -1)]
 PIECEYELLOW = ConnectFourPieces.getPixelArray(0)
 PIECERED = ConnectFourPieces.getPixelArray(1)
+WINPIECERED = ConnectFourPieces.getPixelArray(2)
+WINPIECEYELLOW = ConnectFourPieces.getPixelArray(3)
 
 #Initializing the board graphics from the pixel art images
 BoardConnect = ConnectFourBoard.getPixelArray(0)
@@ -166,11 +216,29 @@ p = Piece(f'{background_bright_red} \033[0m')
 # Displaying the board
 addLinesToSreen(BoardConnect, EmptyScreen, 6, 10, '\033[m', False)
 clear()
-printScreen(EmptyScreen)
+# printScreen(EmptyScreen)
 print(reset)
 
 # Starting Game Loop to play the game
 if __name__ == "__main__":
+    printScreen(ConnectFourBoard.getPixelArray(2))
+    waitForInput('')
+    printScreen(ConnectFourBoard.getPixelArray(3))
+    sleepTime = 0.1
+    loadGame = "Loading Game: \n"
+    loadBar = ""
+    for i in range(1,40):
+        addLinesToSreen(loadGame, ConnectFourBoard.getPixelArray(3), 7, 36, '\033[48;5;12m'+yellow)
+        addLinesToSreen(createEmptyString(loadBar), ConnectFourBoard.getPixelArray(3), 4, 25, '\033[48;5;12m'+yellow)
+        if i == 10: loadGame =  "Preping Assets:";sleepTime=0.2
+        elif i == 20: loadGame = "Prepping Graphics:"; sleepTime=0.1
+        addLinesToSreen(loadBar, ConnectFourBoard.getPixelArray(3), 4, 26, '\033[48;5;12m'+red)
+        loadBar +=  "#"
+        printScreen(ConnectFourBoard.getPixelArray(3))
+        time.sleep(sleepTime)
+    time.sleep(0.8)
+    clear()
+    printScreen(EmptyScreen)
     while True:
         if turn % 2 == 0:
             pieceColor = ["red", background_bright_red, PIECERED]

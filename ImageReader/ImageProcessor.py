@@ -97,11 +97,18 @@ is_windows = os.name == 'nt'
 dir_sep = '\\' if is_windows else '/'
 
 #declare all the images
-ConnectFourBoard = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard1.png', f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard2.png' ]
-ConnectFourPieces = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces1.png', f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces2.png']
+ConnectFourBoard = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard1.png',
+                     f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard2.png',
+                      f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard3.png',
+                       f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard4.png',]
+ConnectFourPieces = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces1.png',
+                      f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces2.png',
+                      f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces3.png',
+                      f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces4.png',]
 
 #create a pixel image object
 ConnectFourBoard = pixelImage(ConnectFourBoard, True)
+# print(np.array(list((ConnectFourBoard.rgb_to_anscii(0, 0, 255)))))
 ConnectFourPieces = pixelImage(ConnectFourPieces, True)
 
 
