@@ -41,6 +41,7 @@ class Board:
             addLinesToSreen(EMPTYGREEN, BoardConnect, 6*(len(self.board) - (i)-1)+1, x*12 + 2, '\033[m', False)
             addLinesToSreen(BoardConnect, EmptyScreen, 0, 16, '\033[m', False)
             printScreen(EmptyScreen)
+        # return True
             
             
 
@@ -75,7 +76,7 @@ class Board:
         
     def checkWinPiece(self, x, y, pieceColor):
         piece = self.board[x][y]
-        verticals = self.checkWinVertical(x, piece)
+        verticals = self.checkWinVertical(y, piece)
         horizontals = self.checkWinHorizontal(x, y, piece)
         diagonals = self.checkWinDiagonal(x, y, piece)
         if verticals[0]:
@@ -94,6 +95,8 @@ class Board:
         for i in range(0, len(self.board)):
             if isinstance(self.board[i][x], Piece) and self.board[i][x].color == piece.color:
                 count += 1
+                # print(count)
+                # time.sleep(0.5)
                 positions.append((i, x))
                 if count == 4:
                     return [True, positions]
