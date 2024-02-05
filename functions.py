@@ -63,17 +63,7 @@ class PixelDesigner:
                         self.pixelEntity[i][j+c] = color + newString[c]
                     return True
         else:
-            return False           
-
-                # if self.pixelEntity[row][col] == string[0]:
-                #     for i in range(0, len(self.pixelEntity[row])):
-                #         if col+i >= len(self.pixelEntity[row]):
-                #             break
-                #         if self.pixelEntity[row][col+i] != string[i]:
-                #             if i == len(string)-1:
-                #                 for i in range(0, len(string)):
-                #                     self.pixelEntity[row][col+i] = color + newString[i]
-                #             break                    
+            return False                       
     def replaceMultiLineString(self, strings, newStrings, color="\033[0m"):
         if not isinstance(strings, list):
             strings = createArrayinArray(strings)
@@ -99,12 +89,6 @@ class PixelDesigner:
                     for n in range(0, len(rowsToReplace)):
                         self.pixelEntity[rowsToReplace[n]] = newStrings[n]
                     return True                    
-        # for i in range(len(self.pixelEntity) - len(strings) + 1):
-        #     if all(ansi_escape.sub('', ''.join(self.pixelEntity[i + j])) == strings[j] for j in range(len(strings))):
-        #         for j in range(len(strings)):
-        #             self.pixelEntity[i + j] = color + newStrings[j]
-        #         return True
-        # return False
 
     def getPixelizedEntity(self):
         return self.pixelEntity
