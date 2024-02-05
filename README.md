@@ -13,3 +13,11 @@ Connect Four Using Hershel Thomas's ASCII Terminal Graphics Engine
 7. type `pip3 install -r requirements.txt`
 8. type `python3 main.py`
 
+## GAME LOOP
+Reisze terminal to smaller size using `ctrl -` or `cmd -` and `ctrl +` or `cmd +`
+Use `a` key or `Left Arrow` to move piece left
+Use `d` key or `Right Arrow` to move piece left
+use `s` key or `Down Arrow` to drop piece
+Press `c` key to Reset Screen if blury or resizing terminal
+
+On Start, press enter to load game
