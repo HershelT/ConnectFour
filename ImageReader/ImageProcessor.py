@@ -7,7 +7,7 @@ from AnsiiEscapeColors import *
 # from numpy import  array, reshape, asarray, ndarray
 import numpy as np
 
-def generate_ansi_colors():
+def generate_ascii_colors():
     basic_colors = [(0, 0, 0), (128, 0, 0), (0, 128, 0), (128, 128, 0),
                     (0, 0, 128), (128, 0, 128), (0, 128, 128), (192, 192, 192),
                     (128, 128, 128), (255, 0, 0), (0, 255, 0), (255, 255, 0),
@@ -15,9 +15,9 @@ def generate_ansi_colors():
     levels = [0, 95, 135, 175, 215, 255]
     extended_colors = [(r, g, b) for r in levels for g in levels for b in levels]    
     return basic_colors + extended_colors
-ansi_colors = generate_ansi_colors()
+ascii_colors = generate_ascii_colors()
 
-pixel_to_ansicode = {}
+pixel_to_asciicode = {}
 class pixelImage:
     @staticmethod
     def trim_image(img):
@@ -42,28 +42,28 @@ class pixelImage:
         return img
     def __init__(self, img : list , scaleRatio = False):
         imageList = []
-        self.ImageAnscii = []
+        self.ImageAscii = []
         for image in img:
             imageList.append(self.trim_image(Image.open(image)))
             # imageList.append(Image.open(image))
         for rgb in imageList:
-            self.ImageAnscii.append(self.getPixelToAnscii(rgb, scaleRatio))
+            self.ImageAscii.append(self.getPixelToAscii(rgb, scaleRatio))
 
-    def getAnsciiList(self):
-        return self.ImageAnscii
+    def getAsciiList(self):
+        return self.ImageAscii
     def size(self, image):
         width, height = image.size
         return width, height
-    def rgb_to_anscii(self, r, g, b):
+    def rgb_to_ascii(self, r, g, b):
         def distance(c1, c2):
             return sum((x1-x2)**2 for x1,x2 in zip(c1, c2))
         rgb_color = (r, g, b)
-        # Find the index of the closest color in the ansi_colors list
-        closest_color = min(range(len(ansi_colors)), key=lambda index: distance(rgb_color, ansi_colors[index]))
+        # Find the index of the closest color in the ascii_colors list
+        closest_color = min(range(len(ascii_colors)), key=lambda index: distance(rgb_color, ascii_colors[index]))
         # Return the ANSI color code
-        pixel_to_ansicode[rgb_color] = "\033[48;5;{}m".format(closest_color)
+        pixel_to_asciicode[rgb_color] = "\033[48;5;{}m".format(closest_color)
         return "\033[48;5;{}m".format(closest_color)
-    def getPixelToAnscii(self, image, scaleRatio = False):
+    def getPixelToAscii(self, image, scaleRatio = False):
         # Convert the image to RGB if it's not already
         if image.mode != 'RGB':
             image = image.convert('RGB')
@@ -73,27 +73,27 @@ class pixelImage:
             row = []
             for y in range(sizes[0]):
                 r, g, b = image.getpixel((y, x))
-                if (r,g,b) in pixel_to_ansicode:
-                    row.append(pixel_to_ansicode[(r,g,b)] + ' ')
+                if (r,g,b) in pixel_to_asciicode:
+                    row.append(pixel_to_asciicode[(r,g,b)] + ' ')
                     if scaleRatio:
-                        row.append(pixel_to_ansicode[(r,g,b)] + ' ')
+                        row.append(pixel_to_asciicode[(r,g,b)] + ' ')
                 else:
-                    row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
+                    row.append(self.rgb_to_ascii(*(r,g,b)) + ' ')
                     if scaleRatio:
-                        row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
+                        row.append(self.rgb_to_ascii(*(r,g,b)) + ' ')
             ansi_codes.append(row)
-        # ansi_codes = list(map(lambda pixel: (self.rgb_to_anscii(*pixel) + ' ') *(2 if scaleRatio else 1), pixels))
+        # ansi_codes = list(map(lambda pixel: (self.rgb_to_ascii(*pixel) + ' ') *(2 if scaleRatio else 1), pixels))
         # Convert the list of ANSI codes to a 2D numpy array and return it
         return ansi_codes
         # return [ansi_codes[i*width:(i+1)*width] for i in range(height)]
         # return np.array(ansi_codes).reshape(img.size[1], img.size[0])
-    def printOutImage(self, imageAnscii : list):
+    def printOutImage(self, imageAscii : list):
         # drawing = self.colors.tolist()  
-        print('\033[0m\n'.join(''.join(row) for row in imageAnscii), end=reset)
-    def printOutNumpy(self, imageAnscii : list):
-        print(np.array(imageAnscii))
+        print('\033[0m\n'.join(''.join(row) for row in imageAscii), end=reset)
+    def printOutNumpy(self, imageAscii : list):
+        print(np.array(imageAscii))
     def getPixelArray(self, imageAtSpot):
-        return self.ImageAnscii[imageAtSpot]
+        return self.ImageAscii[imageAtSpot]
 
 # Convert the 2D array to a string
 
@@ -119,7 +119,9 @@ OthelloBoard = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloBoard
                     f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloBoard4.png',]
 
 OthelloPieces = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces1.png',
-                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces2.png']
+                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces2.png',
+                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces3.png',
+                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces4.png',]
 
 #create a pixel image object
 ConnectFourBoard = pixelImage(ConnectFourBoard, True)

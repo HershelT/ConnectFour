@@ -38,7 +38,7 @@ class Board:
             addLinesToSreen(BoardConnect, EmptyScreen, 0, 16, '\033[m', False)
             printScreen(EmptyScreen)
             time.sleep(0.1)
-            addLinesToSreen(convert_2d_array_to_empty_strings(BoardPieceColor), BoardConnect, 6*(len(self.board) - (i)-1)+1, x*12 + 2, '\033[m', False)
+            addLinesToSreen(EMPTYGREEN, BoardConnect, 6*(len(self.board) - (i)-1)+1, x*12 + 2, '\033[m', False)
             addLinesToSreen(BoardConnect, EmptyScreen, 0, 16, '\033[m', False)
             printScreen(EmptyScreen)
             
@@ -57,9 +57,9 @@ class Board:
     def blinkPieces(self, winPieceList, pieceColor):
         turns = 0
         if pieceColor == PIECEWHITE:
-            piece = WINPIECEWHITE
+            piece = WINPIECEGOLD
         else:
-            piece = WINPIECEBLACK
+            piece = WINPIECEBLACKGOLD
         while turns < 10:
             if turns % 2 == 0:
                 blinkingPiece = piece
@@ -146,13 +146,13 @@ class Board:
 
 #Function to move the piece to the board and check if the game is won
 def MovePiece(col, type):
-    if type[0] == "red":
+    if type[0] == "white":
         BoardPieceColor = PIECEWHITE
     else:
         BoardPieceColor = PIECEBLACK
     if not b.placePiece(Piece(f'{type[1]} \033[0m'), BoardPieceColor ,col):
         return False
-    elif b.checkWin(BoardPieceColor):
+    if b.checkWin(BoardPieceColor):
         clear()
         printScreen(EmptyScreen)
         print(reset)
@@ -169,7 +169,7 @@ def selectingCol(piece):
             on_release=key_listener.on_release)
     listener.start()
     emptyString = convert_2d_array_to_empty_strings(piece)
-    addLinesToSreen(piece, EmptyScreen, ROWOFDISPLAY, currentCol, '\033[m', False)
+    addLinesToSreen(piece, EmptyScreen, ROWOFDISPLAY-1, currentCol, '\033[m', False)
     printScreen(EmptyScreen)
     while not key_listener.is_enter_pressed() and not key_listener.is_down_arrow_pressed() and not key_listener.is_s_pressed():
         if ((key_listener.is_left_arrow_pressed() or key_listener.is_a_pressed()) and col > 0) or ((key_listener.is_right_arrow_pressed() or key_listener.is_d_pressed()) and col < WIDTHOFBOARD-1):
@@ -177,10 +177,10 @@ def selectingCol(piece):
                 num = [12,1]
             else:
                 num = [-12,-1]
-            addLinesToSreen(emptyString, EmptyScreen, ROWOFDISPLAY, currentCol, '\033[m', False)
+            addLinesToSreen(EMPTYGREEN, EmptyScreen, ROWOFDISPLAY-1, currentCol, '\033[m', False)
             currentCol += num[0]
             col += num[1]
-            addLinesToSreen(piece, EmptyScreen, ROWOFDISPLAY, currentCol, '\033[m', False)
+            addLinesToSreen(piece, EmptyScreen, ROWOFDISPLAY-1, currentCol, '\033[m', False)
             key_listener.keys_pressed.discard(all); 
             printScreen(EmptyScreen)
             time.sleep(0.15)
@@ -190,7 +190,7 @@ def selectingCol(piece):
         if key_listener.is_c_pressed():
             clear()
             printScreen(EmptyScreen)
-    addLinesToSreen(convert_2d_array_to_empty_strings(PIECEWHITE), EmptyScreen, ROWOFDISPLAY, currentCol, '\033[m', False)
+    addLinesToSreen(EMPTYGREEN, EmptyScreen, ROWOFDISPLAY-1, currentCol, '\033[m', False)
     listener.stop()
     del listener
     return col   
@@ -199,8 +199,9 @@ def selectingCol(piece):
 CHECKDIAGONALS = [(1, 1), (-1,1), (1, -1), (-1, -1)]
 PIECEBLACK = OthelloPieces.getPixelArray(0)
 PIECEWHITE = OthelloPieces.getPixelArray(1)
-WINPIECEWHITE = OthelloPieces.getPixelArray(0)
-WINPIECEBLACK = OthelloPieces.getPixelArray(1)
+WINPIECEGOLD = OthelloPieces.getPixelArray(3)
+WINPIECEBLACKGOLD = OthelloPieces.getPixelArray(3)
+EMPTYGREEN = OthelloPieces.getPixelArray(2)
 
 #Initializing the board graphics from the pixel art images
 BoardConnect = OthelloBoard.getPixelArray(0)
@@ -241,11 +242,12 @@ if __name__ == "__main__":
     printScreen(EmptyScreen)
     while True:
         if turn % 2 == 0:
-            pieceColor = ["red", background_bright_red, PIECEWHITE]
+            pieceColor = ["white", background_bright_red, PIECEWHITE]
         else:
-            pieceColor = ["yellow", background_yellow, PIECEBLACK]
+            pieceColor = ["black", background_yellow, PIECEBLACK]
         # clear()
         printScreen(EmptyScreen)
+        # print(b)
         # printScreen(BoardConnect)
         colForPiece = selectingCol(pieceColor[2])
         if  MovePiece(colForPiece, pieceColor) == False:
