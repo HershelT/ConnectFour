@@ -17,6 +17,7 @@ def generate_ansi_colors():
     return basic_colors + extended_colors
 ansi_colors = generate_ansi_colors()
 
+pixel_to_ansicode = {}
 class pixelImage:
     @staticmethod
     def trim_image(img):
@@ -60,6 +61,7 @@ class pixelImage:
         # Find the index of the closest color in the ansi_colors list
         closest_color = min(range(len(ansi_colors)), key=lambda index: distance(rgb_color, ansi_colors[index]))
         # Return the ANSI color code
+        pixel_to_ansicode[rgb_color] = "\033[48;5;{}m".format(closest_color)
         return "\033[48;5;{}m".format(closest_color)
     def getPixelToAnscii(self, image, scaleRatio = False):
         # Convert the image to RGB if it's not already
@@ -71,9 +73,14 @@ class pixelImage:
             row = []
             for y in range(sizes[0]):
                 r, g, b = image.getpixel((y, x))
-                row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
-                if scaleRatio:
+                if (r,g,b) in pixel_to_ansicode:
+                    row.append(pixel_to_ansicode[(r,g,b)] + ' ')
+                    if scaleRatio:
+                        row.append(pixel_to_ansicode[(r,g,b)] + ' ')
+                else:
                     row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
+                    if scaleRatio:
+                        row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
             ansi_codes.append(row)
         # ansi_codes = list(map(lambda pixel: (self.rgb_to_anscii(*pixel) + ' ') *(2 if scaleRatio else 1), pixels))
         # Convert the list of ANSI codes to a 2D numpy array and return it
@@ -106,9 +113,20 @@ ConnectFourPieces = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Connect
                       f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces3.png',
                       f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces4.png',]
 
+OthelloBoard = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloBoard1.png',
+                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloBoard2.png',
+                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloBoard3.png',
+                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloBoard4.png',]
+
+OthelloPieces = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces1.png',
+                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces2.png']
+
 #create a pixel image object
 ConnectFourBoard = pixelImage(ConnectFourBoard, True)
-# print(np.array(list((ConnectFourBoard.rgb_to_anscii(0, 0, 255)))))
 ConnectFourPieces = pixelImage(ConnectFourPieces, True)
+
+#working on othello board
+OthelloBoard = pixelImage(OthelloBoard, True)
+OthelloPieces = pixelImage(OthelloPieces, True)
 
 
