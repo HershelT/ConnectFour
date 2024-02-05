@@ -5,7 +5,6 @@ from loadscreen import *
 from functions import *
 LENGTHOFBOARD = 6
 WIDTHOFBOARD = 7
-
 #Using lambda to clear the screen 
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 
