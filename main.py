@@ -75,7 +75,7 @@ class Board:
         
     def checkWinPiece(self, x, y, pieceColor):
         piece = self.board[x][y]
-        verticals = self.checkWinVertical(x, piece)
+        verticals = self.checkWinVertical(y, piece)
         horizontals = self.checkWinHorizontal(x, y, piece)
         diagonals = self.checkWinDiagonal(x, y, piece)
         if verticals[0]:
@@ -197,7 +197,7 @@ def selectingCol(piece):
 
  
 
- 
+
 #Creating Final variables for the display of the two pieces and how the 4 in a row gets checked
 CHECKDIAGONALS = [(1, 1), (-1,1), (1, -1), (-1, -1)]
 PIECEYELLOW = ConnectFourPieces.getPixelArray(0)
