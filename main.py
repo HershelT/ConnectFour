@@ -5,8 +5,10 @@ from loadscreen import *
 from functions import *
 LENGTHOFBOARD = 6
 WIDTHOFBOARD = 7
-#USing lambda to clear the screen 
+
+#Using lambda to clear the screen 
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
+
 #Creating the piece class
 class Piece:
     def __init__(self, color):
