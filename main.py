@@ -193,7 +193,10 @@ def selectingCol(piece):
     addLinesToSreen(convert_2d_array_to_empty_strings(PIECERED), EmptyScreen, ROWOFDISPLAY, currentCol, '\033[m', False)
     listener.stop()
     del listener
-    return col   
+    return col    
+
+ 
+
  
 #Creating Final variables for the display of the two pieces and how the 4 in a row gets checked
 CHECKDIAGONALS = [(1, 1), (-1,1), (1, -1), (-1, -1)]
