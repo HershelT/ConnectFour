@@ -1,4 +1,5 @@
 # Project Name
+Connect Four Terminal Game
 
 ## Description
 [Connect Four Using Hershel Thomas's Anscii Terminal Graphics Engine]
