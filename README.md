@@ -15,9 +15,13 @@ Connect Four Using Hershel Thomas's ASCII Terminal Graphics Engine
 
 ## GAME LOOP
 Reisze terminal to smaller size using `ctrl -` or `cmd -` and `ctrl +` or `cmd +`
+
 Use `a` key or `Left Arrow` to move piece left
+
 Use `d` key or `Right Arrow` to move piece left
+
 use `s` key or `Down Arrow` to drop piece
+
 Press `c` key to Reset Screen if blury or resizing terminal
 
-On Start, press enter to load game
+On Start, press enter to load game and wait to load
