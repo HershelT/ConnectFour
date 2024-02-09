@@ -24,4 +24,6 @@ use `s` key or `Down Arrow` to drop piece
 
 Press `c` key to Reset Screen if blury or resizing terminal
 
+Press `esc` key to leave the game and exit
+
 On Start, press enter to load game and wait to load
