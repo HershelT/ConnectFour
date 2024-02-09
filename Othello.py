@@ -147,6 +147,8 @@ class Board:
     def __repr__(self):
         return self.__str__()
 
+
+
 #Function to move the piece to the board and check if the game is won
 def MovePiece(col, type):
     if type[0] == "white":
@@ -155,6 +157,15 @@ def MovePiece(col, type):
         BoardPieceColor = PIECEBLACK
     if not b.placePiece(Piece(f'{type[1]} \033[0m'), BoardPieceColor ,col):
         return False
+    if MovePiece.white + 4 >= len(EmptyScreen) or MovePiece.black + 4 >= len(EmptyScreen):
+        MovePiece.white = -1
+        MovePiece.black = -1
+    if type[0] == "white":
+        addLinesToSreen(ERASEBLOCK, EmptyScreen, MovePiece.white+4, len(EmptyScreen[0])-14, '\033[m', False)
+        MovePiece.white += 2
+    else:
+        addLinesToSreen(ERASEBLOCK, EmptyScreen, MovePiece.black+4, 2, '\033[m', False)
+        MovePiece.black += 2
     if b.checkWin(BoardPieceColor):
         clear()
         printScreen(EmptyScreen)
@@ -171,7 +182,6 @@ def selectingCol(piece):
             on_press=key_listener.on_press,
             on_release=key_listener.on_release)
     listener.start()
-    emptyString = convert_2d_array_to_empty_strings(piece)
     addLinesToSreen(piece, EmptyScreen, ROWOFDISPLAY-1, currentCol, '\033[m', False)
     printScreen(EmptyScreen)
     while not key_listener.is_enter_pressed() and not key_listener.is_down_arrow_pressed() and not key_listener.is_s_pressed():
@@ -205,11 +215,14 @@ PIECEWHITE = OthelloPieces.getPixelArray(1)
 WINPIECEGOLD = OthelloPieces.getPixelArray(3)
 WINPIECEBLACKGOLD = OthelloPieces.getPixelArray(3)
 EMPTYGREEN = OthelloPieces.getPixelArray(2)
+ERASEBLOCK = OthelloPieces.getPixelArray(4)
 
 #Initializing the board graphics from the pixel art images
 BoardConnect = OthelloBoard.getPixelArray(0)
 EmptyScreen = OthelloBoard.getPixelArray(1)
 ROWOFDISPLAY = len(EmptyScreen)-len(PIECEBLACK)
+
+#Making pieces disapear
 
 
 #Initializing the board and pieces for behind the scenes game logic as well as the turn counter
@@ -222,9 +235,11 @@ addLinesToSreen(BoardConnect, EmptyScreen, 0, 16, '\033[m', False)
 clear()
 # printScreen(EmptyScreen)
 print(reset)
-
+MovePiece.white = -1
+MovePiece.black = -1
 # Starting Game Loop to play the game
 if __name__ == "__main__":
+    
     # printScreen(OthelloBoard.getPixelArray(2))
     # waitForInput('')
     # printScreen(OthelloBoard.getPixelArray(3))
@@ -257,8 +272,3 @@ if __name__ == "__main__":
             # turn -= 1
             continue
         turn += 1
-
-
-
-
-    

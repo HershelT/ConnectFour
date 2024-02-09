@@ -108,10 +108,23 @@ ConnectFourBoard = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectF
                      f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard2.png',
                       f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard3.png',
                        f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard4.png',]
+AlternateConnectFourBoard = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard5.png',
+                        f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard6.png',
+                        f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard7.png',
+                        f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard8.png',]
+                        # f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces9.png',]
+
 ConnectFourPieces = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces1.png',
                       f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces2.png',
                       f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces3.png',
-                      f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces4.png',]
+                      f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces4.png',
+                      f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces9.png',]
+
+AlternateConnectFourPieces = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces5.png',
+                        f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces6.png',
+                        f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces7.png',
+                        f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces8.png',
+                        f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourPieces9.png',]
 
 OthelloBoard = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloBoard1.png',
                     f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloBoard2.png',
@@ -121,12 +134,22 @@ OthelloBoard = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloBoard
 OthelloPieces = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces1.png',
                     f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces2.png',
                     f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces3.png',
-                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces4.png',]
+                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces4.png',
+                    f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}OthelloPieces5.png',]
+WinDisplay = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard9.png',
+              f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard10.png',
+              f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard11.png',
+              f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ConnectFourBoard12.png',]
 
 #create a pixel image object
 ConnectFourBoard = pixelImage(ConnectFourBoard, True)
 ConnectFourPieces = pixelImage(ConnectFourPieces, True)
-
+#alternate Colors
+AlternateConnectFourBoard = pixelImage(AlternateConnectFourBoard, True)
+AlternateConnectFourPieces = pixelImage(AlternateConnectFourPieces, True)
+# print(np.array(list((AlternateConnectFourBoard.rgb_to_ascii(0, 135, 215)))))
+#Win display
+WinDisplay = pixelImage(WinDisplay, True)
 #working on othello board
 OthelloBoard = pixelImage(OthelloBoard, True)
 OthelloPieces = pixelImage(OthelloPieces, True)
