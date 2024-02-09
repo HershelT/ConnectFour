@@ -254,6 +254,9 @@ if __name__ == "__main__":
             print("You have exited the program")
             time.sleep(0.5)
             sys.exit()
+        if key_listener.is_c_pressed():
+            clear()
+            printScreen(StartScreen)
         if key_listener.is_tab_pressed() and selection % 2 == 0:
             BoardConnect = ConnectFourBoard.getPixelArray(0)
             EmptyScreen  = ConnectFourBoard.getPixelArray(1)

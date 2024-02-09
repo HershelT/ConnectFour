@@ -1,10 +1,18 @@
 # **Board Games**
+
 >HT's ASCII Graphics Engine game
+
 ## Description
+
 Connect Four Using Hershel Thomas's ASCII Terminal Graphics Engine
 
+## Prerequisites
+
+>Python 3
+
 ## Installation
-1. Go to the Green box on top right and press download zip
+
+1. Go to the Green box on top right that says `Code` and press `Download ZIP`
 2. Go to location of downloaded zip file
 3. Double click it to extract or right click to extract
 4. Open extracted folder in terminal, bash, or command line
@@ -14,7 +22,22 @@ Connect Four Using Hershel Thomas's ASCII Terminal Graphics Engine
 8. type `python3 main.py`
 
 ## GAME LOOP
-Reisze terminal to smaller size using `ctrl -` or `cmd -` and `ctrl +` or `cmd +`
+
+### Before Game
+
+Reisze terminal to smaller screen size using `ctrl -` or `cmd -` and `ctrl +` or `cmd +`
+
+### Selection Screen
+
+Press `C` key to Reset Screen (**Important to use when resizing screen using `ctrl -` or `cmd -`**)
+
+Use `Tab` to change Connect Four Board look
+
+Press `Enter` so start the game
+
+Press `S` to skip the loading screen
+
+### During Game
 
 Use `a` key or `Left Arrow` to move piece left
 
